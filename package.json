@@ -1,0 +1,23 @@
+{
+  "name": "object-view-js",
+  "version": "1.0.0",
+  "description": "The library of multi-angle viewer.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm run build && nodemon --ext js,mjs,cjs,json,html test/observer.js",
+    "pretty": "prettier index.js --write --config .prettierrc.js",
+    "build": "node .esbuild.js"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "shinich39 <shinich39@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.23.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "websocket": "^1.0.35"
+  }
+}
