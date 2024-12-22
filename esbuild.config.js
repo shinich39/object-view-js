@@ -88,8 +88,8 @@ const BROWSER = [
   }
 
   const options = [
-    ...ESM,
-    ...CJS,
+    // ...ESM,
+    // ...CJS,
     ...BROWSER,
   ];
 
