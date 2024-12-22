@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>index.html</title>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #image{
+        display: block;
+        width: 512px;
+        height: 512px;
+        object-fit: contain;
+        object-position: 50% 50%;
+        border: 1px solid black;
+      }
+      #images > img{
+        display: none;
+        width: 512px;
+        height: 512px;
+        object-fit: contain;
+        object-position: 50% 50%;
+        border: 1px solid black;
+      }
+      #images > img.selected{
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+
+      <img id="image" src="" alt="Image">
+      <!-- <div id="images"></div> -->
+
+      <br>
+
+      <div style="text-align: center;">
+        <button id="btn-up">Up</button>
+        <button id="btn-down">Down</button>
+        <button id="btn-left">Left</button>
+        <button id="btn-right">Right</button>
+      </div>
+
+    </div>
+    <script src="../dist/object-view.js"></script>
+    <script>
+      const { ObjectView } = objectView;
+
+      ;(async () => {
+        const buttonElems = [
+          document.getElementById("btn-up"),
+          document.getElementById("btn-right"),
+          document.getElementById("btn-down"),
+          document.getElementById("btn-left"),
+        ];
+
+        const view = new ObjectView({
+          x: 1,
+          y: 1,
+          width: 4,
+          height: 3,
+          enableHorizontalLoop: true,
+          enableVerticalLoop: false,
+        });
+
+        view.init();
+
+        for (let y of [0,1,2]) {
+          for (let x of [0,1,2,3]) {
+            const src = `/test/src/${y}-${x}.JPG`;
+            view.setImage(x, y, src);
+          }
+        }
+
+        console.time("load");
+        await view.loadImages((image, i, images) => {
+          console.log("Image loaded:", (i + 1) / images.length);
+          // console.timeLog("load");
+        });
+        console.timeEnd("load");
+
+        // Type: dataURL without render
+        // Load: 40ms
+        // Move: 40ms
+        const imageElem = document.getElementById("image");
+        imageElem.src = view.getCurrentImage().url;
+        buttonElems.forEach((item, i) => {
+          item.addEventListener("click", (e) => {
+            requestAnimationFrame(() => {
+              console.time("move");
+              if (i == 0) {
+                view.move(0, 1);
+              } else if (i == 1) {
+                view.move(1, 0);
+              } else if (i == 2) {
+                view.move(0, -1);
+              } else if (i == 3) {
+                view.move(-1, 0);
+              }
+
+              console.log(view.x, view.y);
+
+              imageElem.src = view.getCurrentImage().url;
+              console.timeEnd("move");
+            });
+          });
+        })
+
+        // Type: element
+        // Load: 45ms
+        // Render: 380ms
+        // Move: 40ms
+        // const containerElem = document.getElementById("images");
+        // console.time("render");
+        // await view.renderImages((image, i, images) => {
+        //   console.log("Image rendered:", (i + 1) / images.length);
+        //   containerElem.appendChild(image.element);
+        // });
+        // console.timeEnd("render");
+        
+        // view.getCurrentImage().element.classList.add("selected");
+
+        // buttonElems.forEach((item, i) => {
+        //   item.addEventListener("click", (e) => {
+        //     requestAnimationFrame(() => {
+        //       console.time("move");
+        //       view.getCurrentImage().element.classList.remove("selected");
+
+        //       if (i == 0) {
+        //         view.move(0, 1);
+        //       } else if (i == 1) {
+        //         view.move(1, 0);
+        //       } else if (i == 2) {
+        //         view.move(0, -1);
+        //       } else if (i == 3) {
+        //         view.move(-1, 0);
+        //       }
+
+        //       console.log(view.x, view.y);
+
+        //       view.getCurrentImage().element.classList.add("selected");
+        //       console.timeEnd("move");
+        //     });
+        //   });
+        // })
+      })();
+
+    </script>
+  </body>
+</html>
