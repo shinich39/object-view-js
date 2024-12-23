@@ -12,11 +12,9 @@
   "type": "module",
   "scripts": {
     "init": "npm install && rimraf .git",
-    "test": "npm run pretty && npm run lint && npm run build && observe test/index.html",
+    "test": "npm run pretty && npm run build && observe test/index.html",
     "build": "node esbuild.config.js",
-    "pretty": "prettier index.js --write --config prettier.config.js",
-    "lint": "eslint index.js",
-    "lint:fix": "eslint index.js --fix"
+    "pretty": "prettier index.js --write --config prettier.config.js"
   },
   "keywords": [
     "javascript"
@@ -25,9 +23,8 @@
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.24.2",
-    "eslint": "^9.17.0",
+    "node-html-observer": "github:shinich39/node-html-observer",
     "prettier": "^3.4.2",
-    "rimraf": "^6.0.1",
-    "node-html-observer": "github:shinich39/node-html-observer"
+    "rimraf": "^6.0.1"
   }
 }
