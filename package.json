@@ -11,9 +11,8 @@
   },
   "type": "module",
   "scripts": {
-    "init": "npm install && rimraf .git",
-    "test": "npm run pretty && npm run build && observe test/index.html",
-    "build": "node esbuild.config.js",
+    "test": "npm run build && observe test/index.html",
+    "build": "npm run pretty && node esbuild.config.js",
     "pretty": "prettier index.js --write --config prettier.config.js"
   },
   "keywords": [
@@ -24,7 +23,6 @@
   "devDependencies": {
     "esbuild": "^0.24.2",
     "node-html-observer": "github:shinich39/node-html-observer",
-    "prettier": "^3.4.2",
-    "rimraf": "^6.0.1"
+    "prettier": "^3.4.2"
   }
 }
